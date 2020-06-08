@@ -55,17 +55,17 @@ export default class Time extends React.Component {
 
   componentDidMount() {
     // code to ensure selected time will always be in focus within time window when it first appears
-    this.list.scrollTop = Time.calcCenterPosition(
-      this.props.monthRef
-        ? this.props.monthRef.clientHeight - this.header.clientHeight
-        : this.list.clientHeight,
-      this.centerLi
-    );
-    if (this.props.monthRef && this.header) {
-      this.setState({
-        height: this.props.monthRef.clientHeight - this.header.clientHeight
-      });
-    }
+    // this.list.scrollTop = Time.calcCenterPosition(
+    //   this.props.monthRef
+    //     ? this.props.monthRef.clientHeight - this.header.clientHeight
+    //     : this.list.clientHeight,
+    //   this.centerLi
+    // );
+    // if (this.props.monthRef && this.header) {
+    this.setState({
+      height: 50 //this.props.monthRef.clientHeight - this.header.clientHeight
+    });
+    // }
   }
 
   handleClick = time => {
@@ -118,63 +118,96 @@ export default class Time extends React.Component {
   };
 
   renderTimes = () => {
-    let times = [];
-    const format = this.props.format ? this.props.format : "p";
-    const intervals = this.props.intervals;
+    // let times = []
+    // const format = this.props.format ? this.props.format : 'p'
+    // const intervals = this.props.intervals
     const activeTime =
       this.props.selected || this.props.openToDate || newDate();
 
     const currH = getHours(activeTime);
     const currM = getMinutes(activeTime);
-    let base = getStartOfDay(newDate());
-    const multiplier = 1440 / intervals;
-    const sortedInjectTimes =
-      this.props.injectTimes &&
-      this.props.injectTimes.sort(function(a, b) {
-        return a - b;
-      });
-    const centerLiTargetList = [];
-    for (let i = 0; i < multiplier; i++) {
-      const currentTime = addMinutes(base, i * intervals);
-      times.push(currentTime);
+    // let base = getStartOfDay(newDate())
 
-      if (sortedInjectTimes) {
-        const timesToInject = timesToInjectAfter(
-          base,
-          currentTime,
-          i,
-          intervals,
-          sortedInjectTimes
-        );
-        times = times.concat(timesToInject);
-      }
+    const onHourChange = e => {
+      const t = activeTime;
+      t.setHours(e.target.value);
+      this.handleClick(t);
+    };
+    const onMinutesChange = e => {
+      const t = activeTime;
+      t.setMinutes(e.target.value);
+      this.handleClick(t);
+    };
 
-      if (currH === getHours(currentTime)) {
-        centerLiTargetList.push(currentTime);
-      }
-    }
+    return (
+      <>
+        <select
+          className="react-datepicker__time-select"
+          onChange={onHourChange}
+          value={currH}
+        >
+          {Array.from({ length: 24 }).map((v, i) => (
+            <option key={i} value={i}>
+              {i}
+            </option>
+          ))}
+        </select>
+        <span className="react-datepicker__time-select-devider">:</span>
+        <select
+          className="react-datepicker__time-select"
+          onChange={onMinutesChange}
+          value={currM}
+        >
+          {Array.from({ length: 60 }).map((v, i) => (
+            <option key={i} value={i}>
+              {i.toString().length < 2 ? "0" + i : i}
+            </option>
+          ))}
+        </select>
+      </>
+    );
+    // const multiplier = 1440 / intervals
+    // const sortedInjectTimes =
+    // 	this.props.injectTimes &&
+    // 	this.props.injectTimes.sort(function(a, b) {
+    // 		return a - b
+    // 	})
+    // const centerLiTargetList = []
+    // for (let i = 0; i < multiplier; i++) {
+    // 	const currentTime = addMinutes(base, i * intervals)
+    // 	times.push(currentTime)
 
-    return times.map((time, i) => (
-      <li
-        key={i}
-        onClick={this.handleClick.bind(this, time)}
-        className={this.liClasses(time, currH, currM)}
-        ref={li => {
-          if (currH === getHours(time)) {
-            if (currM >= getMinutes(time)) {
-              this.centerLi = li;
-            } else if (
-              !this.centerLi &&
-              centerLiTargetList.indexOf(time) === centerLiTargetList.length - 1
-            ) {
-              this.centerLi = li;
-            }
-          }
-        }}
-      >
-        {formatDate(time, format, this.props.locale)}
-      </li>
-    ));
+    // 	if (sortedInjectTimes) {
+    // 		const timesToInject = timesToInjectAfter(base, currentTime, i, intervals, sortedInjectTimes)
+    // 		times = times.concat(timesToInject)
+    // 	}
+
+    // 	if (currH === getHours(currentTime)) {
+    // 		centerLiTargetList.push(currentTime)
+    // 	}
+    // }
+
+    // return times.map((time, i) => (
+    // 	<li
+    // 		key={i}
+    // 		onClick={this.handleClick.bind(this, time)}
+    // 		className={this.liClasses(time, currH, currM)}
+    // 		ref={(li) => {
+    // 			if (currH === getHours(time)) {
+    // 				if (currM >= getMinutes(time)) {
+    // 					this.centerLi = li
+    // 				} else if (
+    // 					!this.centerLi &&
+    // 					centerLiTargetList.indexOf(time) === centerLiTargetList.length - 1
+    // 				) {
+    // 					this.centerLi = li
+    // 				}
+    // 			}
+    // 		}}
+    // 	>
+    // 		{formatDate(time, format, this.props.locale)}
+    // 	</li>
+    // ))
   };
 
   render() {
@@ -188,16 +221,14 @@ export default class Time extends React.Component {
             : ""
         }`}
       >
-        <div
-          className="react-datepicker__header react-datepicker__header--time"
-          ref={header => {
-            this.header = header;
-          }}
-        >
-          <div className="react-datepicker-time__header">
-            {this.props.timeCaption}
-          </div>
-        </div>
+        {/* <div
+					className='react-datepicker__header react-datepicker__header--time'
+					ref={(header) => {
+						this.header = header
+					}}
+				>
+					<div className='react-datepicker-time__header'>{this.props.timeCaption}</div>
+				</div> */}
         <div className="react-datepicker__time">
           <div className="react-datepicker__time-box">
             <ul

@@ -547,9 +547,9 @@ export default class DatePicker extends React.Component {
     });
 
     this.props.onChange(changedDate);
-    if (this.props.shouldCloseOnSelect) {
-      this.setOpen(false);
-    }
+    // if (this.props.shouldCloseOnSelect) {
+    //   this.setOpen(false);
+    // }
     if (this.props.showTimeInput) {
       this.setOpen(true);
     }
