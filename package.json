@@ -1,10 +1,10 @@
 {
-  "author": "HackerOne",
-  "name": "react-datepicker",
+  "author": "rediska1114",
+  "name": "react-datetimepicker",
   "description": "A simple and reusable datepicker component for React",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MIT",
-  "homepage": "https://github.com/Hacker0x01/react-datepicker",
+  "homepage": "https://github.com/rediska1114/react-datepicker",
   "main": "dist/index.js",
   "browser": "dist/react-datepicker.min.js",
   "module": "dist/es/index.js",
@@ -25,14 +25,15 @@
     "datepicker",
     "calendar",
     "date",
-    "react-component"
+    "react-component",
+    "datetimepicker"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/Hacker0x01/react-datepicker.git"
+    "url": "https://github.com/rediska1114/react-datepicker"
   },
   "bugs": {
-    "url": "https://github.com/Hacker0x01/react-datepicker/issues"
+    "url": "https://github.com/rediska1114/react-datepicker/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
