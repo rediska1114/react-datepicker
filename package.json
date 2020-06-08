@@ -1,6 +1,6 @@
 {
   "author": "rediska1114",
-  "name": "react-datetimepicker",
+  "name": "@rediska1114/react-datetimepicker",
   "description": "A simple and reusable datepicker component for React",
   "version": "3.0.1",
   "license": "MIT",
@@ -30,7 +30,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/rediska1114/react-datepicker"
+    "url": "git+https://github.com/rediska1114/react-datepicker.git"
   },
   "bugs": {
     "url": "https://github.com/rediska1114/react-datepicker/issues"
@@ -141,5 +141,10 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "test": "test"
   }
 }
